@@ -6,6 +6,8 @@ export interface Contact {
 
 export interface ContactsState {
   items: Contact[];
+  isLoading: boolean;
+  error: string | null;
 }
 
 export interface FiltersState {

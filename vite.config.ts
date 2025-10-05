@@ -10,6 +10,7 @@ export default defineConfig({
       "@": resolve(__dirname, "src"),
       "@components": resolve(__dirname, "src/components"),
       "@store": resolve(__dirname, "src/redux"),
+      "@api": resolve(__dirname, "src/api"),
       "@types": resolve(__dirname, "src/types"),
     },
   },

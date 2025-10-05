@@ -1,0 +1,6 @@
+.error {
+  font-size: 20px;
+  text-align: center;
+  color: var(--error-color);
+  padding: 20px 0;
+}

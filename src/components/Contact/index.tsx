@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { deleteContact } from "@store/contactsSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+
+import { deleteContact } from "@store/operations";
 import type { Contact as ContactType } from "@types";
 import Modal from "@components/Modal";
 import ContactForm from "@components/ContactForm";
@@ -11,7 +12,7 @@ interface ContactProps {
 }
 
 export default function Contact({ contact }: ContactProps) {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleDelete = () => {

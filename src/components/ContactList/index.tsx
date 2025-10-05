@@ -1,15 +1,47 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import Contact from "@components/Contact";
 import type { RootState } from "@types";
 import css from "./style.module.css";
+import { fetchContacts } from "@/redux/operations";
+import { useAppDispatch, useAppSelector } from "@/hooks/useAppDispatch";
+import Loader from "@components/Loader";
+import Error from "@components/Error";
 
 export default function ContactList() {
-  const contacts = useSelector((state: RootState) => state.contacts.items);
-  const filter = useSelector((state: RootState) => state.filters.name);
+  const dispatch = useAppDispatch();
+
+  const contacts = useAppSelector((state: RootState) => state.contacts.items);
+  const isLoading = useAppSelector(
+    (state: RootState) => state.contacts.isLoading
+  );
+  const error = useAppSelector((state: RootState) => state.contacts.error);
+  const filter = useAppSelector((state: RootState) => state.filters.name);
 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  if (error) {
+    return (
+      <div className={css.errorState}>
+        <Error error={error} />
+        <button
+          className={css.retryButton}
+          onClick={() => dispatch(fetchContacts())}
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (contacts.length === 0) {
     return (
