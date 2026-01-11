@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { ContactsState } from "@types";
 import {
   fetchContacts,
   addContact,
@@ -8,20 +6,20 @@ import {
   editContact,
 } from "./operations";
 
-const initialState: ContactsState = {
+const initialState = {
   items: [],
   isLoading: false,
   error: null,
 };
 
-const handlePending = (state: ContactsState) => {
+const handlePending = (state) => {
   state.isLoading = true;
   state.error = null;
 };
 
 const handleRejected = (
-  state: ContactsState,
-  action: PayloadAction<unknown, string>
+  state,
+  action
 ) => {
   state.isLoading = false;
 

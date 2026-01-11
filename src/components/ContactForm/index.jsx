@@ -1,24 +1,16 @@
 import { useState, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/hooks/useAppDispatch";
+import { useDispatch, useSelector } from "react-redux";
 
 import { addContact, editContact } from "@store/operations"; // Змінив імпорт
-import type { RootState } from "@store/store";
-import type { Contact } from "@types";
 import css from "./style.module.css";
-
-interface ContactFormProps {
-  contact?: Contact;
-  onSuccess?: () => void;
-  onCancel?: () => void;
-}
 
 export default function ContactForm({
   contact,
   onSuccess,
   onCancel,
-}: ContactFormProps) {
-  const dispatch = useAppDispatch();
-  const contacts = useAppSelector((state: RootState) => state.contacts.items);
+}) {
+  const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.contacts.items);
 
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -33,7 +25,7 @@ export default function ContactForm({
     }
   }, [contact]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
@@ -47,14 +39,14 @@ export default function ContactForm({
     }
 
     if (isEditing && contact) {
-      const updatedContact: Contact = {
+      const updatedContact = {
         ...contact,
         name: name.trim(),
         number: number.trim(),
       };
       dispatch(editContact(updatedContact));
     } else {
-      const newContact: Contact = {
+      const newContact = {
         id: crypto.randomUUID(),
         name: name.trim(),
         number: number.trim(),

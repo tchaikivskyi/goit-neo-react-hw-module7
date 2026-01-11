@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import type { Contact } from "@types";
 
 axios.defaults.baseURL = `https://${
   import.meta.env.VITE_MOCK_API_KEY
@@ -10,7 +9,7 @@ export const fetchContacts = createAsyncThunk(
   "contacts/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get<Contact[]>("/contacts");
+      const response = await axios.get("/contacts");
       return response.data;
     } catch (error) {
       if (error instanceof Error) {
@@ -23,7 +22,7 @@ export const fetchContacts = createAsyncThunk(
 
 export const addContact = createAsyncThunk(
   "contacts/addContact",
-  async (contactData: Omit<Contact, "id">, thunkAPI) => {
+  async (contactData, thunkAPI) => {
     try {
       const response = await axios.post<Contact>("/contacts", contactData);
       return response.data;
@@ -38,7 +37,7 @@ export const addContact = createAsyncThunk(
 
 export const deleteContact = createAsyncThunk(
   "contacts/deleteContact",
-  async (contactId: string, thunkAPI) => {
+  async (contactId, thunkAPI) => {
     try {
       await axios.delete(`/contacts/${contactId}`);
       return contactId;
@@ -53,7 +52,7 @@ export const deleteContact = createAsyncThunk(
 
 export const editContact = createAsyncThunk(
   "contacts/editContact",
-  async (contact: Contact, thunkAPI) => {
+  async (contact, thunkAPI) => {
     try {
       const response = await axios.put<Contact>(
         `/contacts/${contact.id}`,

@@ -1,21 +1,20 @@
 import { useEffect } from "react";
 import Contact from "@components/Contact";
-import type { RootState } from "@types";
 import css from "./style.module.css";
 import { fetchContacts } from "@/redux/operations";
-import { useAppDispatch, useAppSelector } from "@/hooks/useAppDispatch";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "@components/Loader";
 import Error from "@components/Error";
 
 export default function ContactList() {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const contacts = useAppSelector((state: RootState) => state.contacts.items);
-  const isLoading = useAppSelector(
-    (state: RootState) => state.contacts.isLoading
+  const contacts = useSelector((state) => state.contacts.items);
+  const isLoading = useSelector(
+    (state) => state.contacts.isLoading
   );
-  const error = useAppSelector((state: RootState) => state.contacts.error);
-  const filter = useAppSelector((state: RootState) => state.filters.name);
+  const error = useSelector((state) => state.contacts.error);
+  const filter = useSelector((state) => state.filters.name);
 
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
